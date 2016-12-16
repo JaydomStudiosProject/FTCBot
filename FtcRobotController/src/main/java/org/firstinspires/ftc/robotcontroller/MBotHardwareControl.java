@@ -170,7 +170,7 @@ public class MBotHardwareControl
 {
     /* Public OpMode members. */
     public DcMotor awesomeMotor = null;
-    public Servo    servo       = null;
+   // public Servo    servo       = null;
 
     private Drive drive;
 
@@ -224,10 +224,10 @@ public class MBotHardwareControl
         //armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Define and initialize ALL installed servos.
-        servo = hwMap.servo.get(servoName);
+      /*  servo = hwMap.servo.get(servoName);
         //rightClaw = hwMap.servo.get("right_hand");
         servo.setPosition(MID_SERVO);
-        //rightClaw.setPosition(MID_SERVO);
+        //rightClaw.setPosition(MID_SERVO);*/
     }
 
     /***

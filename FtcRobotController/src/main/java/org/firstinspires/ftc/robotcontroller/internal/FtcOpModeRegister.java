@@ -36,7 +36,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 import com.qualcomm.robotcore.eventloop.opmode.AnnotatedOpModeRegistrar;
 
-import org.firstinspires.ftc.robotcontroller.MBotAutonomous;
+import org.firstinspires.ftc.robotcontroller.MBotAutonomousStable;
 import org.firstinspires.ftc.robotcontroller.MBotAutonomousStable;
 import org.firstinspires.ftc.robotcontroller.MBotControlled;
 import org.firstinspires.ftc.robotcontroller.external.samples.ConceptNullOp;
@@ -80,8 +80,6 @@ public class FtcOpModeRegister implements OpModeRegister {
         /**
          * Any manual OpMode class registrations should go here.
          */
-        manager.register("Autonomous", MBotAutonomous.class);
-        manager.register("Controlled", MBotControlled.class);
-        manager.register("Autonomous - Stable", MBotAutonomousStable.class);
+
     }
 }

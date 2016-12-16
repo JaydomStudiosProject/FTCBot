@@ -144,7 +144,7 @@ public class MBotAutonomousStable extends LinearOpMode {
 }
 */
 
-//@Autonomous(name="MBot: Time-Based Stable Autonomous", group="MBot")
+@Autonomous(name="Autonomous", group="MBot")
 public class MBotAutonomousStable extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -239,7 +239,7 @@ public class MBotAutonomousStable extends LinearOpMode {
             telemetry.update();
             idle();
         }
-    } 
+    }
 
     public void turn(double time, boolean goRight) throws InterruptedException {
         double lSpeed = goRight ? -TURN_SPEED : TURN_SPEED;

@@ -14,8 +14,8 @@ import java.io.StringWriter;
  * Created by jtnunley on 10/22/16.
  */
 
-//@TeleOp(name="MBot: Controlled", group="MBot")
-public class MBotControlled extends LinearOpMode {
+
+public abstract class MBotControlled extends LinearOpMode {
 
 
     MBotHardwareControl hardware = new MBotHardwareControl();
@@ -48,6 +48,18 @@ public class MBotControlled extends LinearOpMode {
         }
     }
 
+    public class two_ints {
+        public double i;
+        public double j;
+
+        public two_ints(double i, double j) {
+            this.i = i;
+            this.j = j;
+        }
+    }
+
+    protected abstract two_ints func(double lsx, double lsy, double rsx, double rsy);
+
     @Override
     public void runOpMode() throws InterruptedException {
         hardware.init(hardwareMap);
@@ -59,7 +71,7 @@ public class MBotControlled extends LinearOpMode {
 
             // run until the end of the match (driver presses STOP)
             while (opModeIsActive()) {
-                monitorX();
+                //monitorX();
 
                double left;
                double right;
@@ -74,8 +86,9 @@ public class MBotControlled extends LinearOpMode {
 
                 // Run wheels in POV mode (note: The joystick goes negative when pushed forwards, so negate it)
                 // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
-               left = -gamepad1.left_stick_y + gamepad1.right_stick_x;
-                right = -gamepad1.left_stick_y - gamepad1.right_stick_x;
+                two_ints ti = func(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.right_stick_y);
+                left = ti.i;
+                right = ti.i;
 
                 left = -left;
                 right = -right;
@@ -91,6 +104,9 @@ public class MBotControlled extends LinearOpMode {
                     right /= max;
                 }
 
+                double aSpeed = gamepad1.left_bumper ? 1 : (gamepad1.left_trigger > 0 ? -1 : 0);
+                aSpeed = gamepad1.right_bumper ? 0.25 : (gamepad1.right_trigger > 0 ? -0.25 : aSpeed);
+                hardware.awesomeMotor.setPower(aSpeed);
 
                 if (left == 0 && right != 0)
                     left = -right;
@@ -111,8 +127,8 @@ public class MBotControlled extends LinearOpMode {
 
                 // Move both servos to new position.  Assume servos are mirror image of each other.
   //              clawOffset = Range.clip(clawOffset, servoMin, servoMax);
-                hardware.servo.setPosition(hardware.MID_SERVO + clawOffset);
-                //hardware.rightCla.setPosition(robot.MID_SERVO - clawOffset);
+               /* hardware.servo.setPosition(hardware.MID_SERVO + clawOffset);
+                //hardware.rightCla.setPosition(robot.MID_SERVO - clawOffset);*/
 
                 // Use gamepad buttons to move arm up (Y) and down (A)
             /*if (gamepad1.y)
