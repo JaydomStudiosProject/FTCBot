@@ -169,10 +169,16 @@ public class MBotHardwareControl {
 public class MBotHardwareControl
 {
     /* Public OpMode members. */
-    public DcMotor  leftMotor   = null;
-    public DcMotor  rightMotor  = null;
     public DcMotor awesomeMotor = null;
     public Servo    servo       = null;
+
+    private Drive drive;
+
+    public Drive getDrive() {
+        if (drive == null)
+            drive = new Drive(hwMap);
+        return drive;
+    }
 
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.45 ;
@@ -182,8 +188,7 @@ public class MBotHardwareControl
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
 
-    private static final String lDriveName = "lDrive";
-    private static final String rDriveName = "rDrive";
+
     private static final String aDriveName = "aDrive";
     private static final String servoName = "servo";
     private  static final String driveControllerName = "driveController";
@@ -204,23 +209,17 @@ public class MBotHardwareControl
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftMotor   = hwMap.dcMotor.get(lDriveName);
-        rightMotor  = hwMap.dcMotor.get(rDriveName);
+        getDrive();
         awesomeMotor = hwMap.dcMotor.get(aDriveName);
         //armMotor    = hwMap.dcMotor.get("left_arm");
-        leftMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
-        rightMotor.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+        getDrive().reverseLeftMotor();
 
         // Set all motors to zero power
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
         awesomeMotor.setPower(0);
         //armMotor.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         awesomeMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 

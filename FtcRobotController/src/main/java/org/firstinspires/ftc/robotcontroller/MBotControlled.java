@@ -51,8 +51,7 @@ public class MBotControlled extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         hardware.init(hardwareMap);
-        hardware.leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        hardware.rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+       hardware.getDrive().runMotorsWithoutEncoders();
         hardware.awesomeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
        // try {
             // Wait for the game to start (driver presses PLAY)
@@ -101,8 +100,8 @@ public class MBotControlled extends LinearOpMode {
                 left *= speed;
                 right *= speed;
 
-                hardware.leftMotor.setPower(((left * speed) - hardware.CompensationLeft) * .65);
-                hardware.rightMotor.setPower(((right * speed) - hardware.CompensationRight) * .65);
+                hardware.getDrive().setLeftMotorPower(((left * speed) - hardware.CompensationLeft) * .65);
+                hardware.getDrive().setRightMotorPower(((right * speed) - hardware.CompensationRight) * .65);
 
                 // Use gamepad left & right Bumpers to open and close the claw
                 if (gamepad1.right_bumper)
@@ -153,80 +152,5 @@ public class MBotControlled extends LinearOpMode {
     static final double     DRIVE_SPEED             = 0.6;
     static final double     TURN_SPEED              = 0.5;
 
-    static final double AUTO_TURN = degreesToInches(51);
-
     static  final double TIMEOUT = 15.0;
-    public void encoderDrive(double speed,
-                             double leftInches, double rightInches,
-                             double timeoutS) throws InterruptedException {
-        int newLeftTarget;
-        int newRightTarget;
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-
-            // Determine new target position, and pass to motor controller
-            newLeftTarget = hardware.leftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget =  hardware.rightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            hardware.leftMotor.setTargetPosition(newLeftTarget);
-            hardware.rightMotor.setTargetPosition(newRightTarget);
-
-            // Turn On RUN_TO_POSITION
-            hardware.leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            hardware.rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            // reset the timeout time and start motion.
-            runtime.reset();
-            hardware.leftMotor.setPower(Math.abs(speed));
-            hardware.rightMotor.setPower(Math.abs(speed));
-
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (hardware.leftMotor.isBusy() && hardware.rightMotor.isBusy())) {
-
-                // Display it for the driver.
-                //telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
-                //telemetry.addData("Path2",  "Running at %7d :%7d",
-                // hardware.leftMotor.getCurrentPosition(),
-                //hardware.rightMotor.getCurrentPosition());
-                //telemetry.update();
-
-                // Allow time for other processes to run.
-                idle();
-            }
-
-            // Stop all motion;
-            hardware.leftMotor.setPower(0);
-            hardware.rightMotor.setPower(0);
-
-            // Turn off RUN_TO_POSITION
-            hardware.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            hardware.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-            sleep(250);   // optional pause after each move
-        }
-    }
-
-    public void encoderTurn(double speed, double inches, boolean left, double timeout) throws InterruptedException {
-        encoderDrive(speed, (left) ? (inches) : (0-inches), (left) ? (0-inches) : (inches), timeout);
-    }
-
-    public  void encoderDrive(double speed, double inches, double timeout) throws InterruptedException {
-
-        encoderDrive(speed, inches, inches, timeout);
-    }
-
-    public  void pushBeacon() {
-        // TODO: implement code here
-    }
-
-    public static double degreesToInches(double degrees) {
-        double factor = 12/52;
-        return degrees * factor;
-    }
-
-    public double feetToInches(double feet) {
-        return feet * 12;
-    }
 }
