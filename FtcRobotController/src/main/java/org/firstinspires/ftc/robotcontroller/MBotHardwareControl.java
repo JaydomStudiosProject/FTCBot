@@ -168,16 +168,24 @@ public class MBotHardwareControl {
 // here's the actual robot (note, just copypasted crud from the pushbot hardware)
 public class MBotHardwareControl
 {
+    boolean hasColorSensor = false;
     /* Public OpMode members. */
     public DcMotor awesomeMotor = null;
    // public Servo    servo       = null;
 
     private Drive drive;
+    private TapeFinder tFinder;
 
     public Drive getDrive() {
         if (drive == null)
             drive = new Drive(hwMap);
         return drive;
+    }
+
+    public TapeFinder getTapeFinder() {
+        if (tFinder == null)
+            tFinder = new TapeFinder(hwMap);
+        return tFinder;
     }
 
     public static final double MID_SERVO       =  0.5 ;
@@ -195,6 +203,7 @@ public class MBotHardwareControl
     private static final String servoControllerName = "barry ";
     private  static final String touchSensorName = "touchSensor";
 
+
     public final int CompensationLeft = 0;
     public final int CompensationRight = 0;
 
@@ -205,14 +214,14 @@ public class MBotHardwareControl
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
-        // Save reference to Hardware map
+        // Save reference to Hardware map\  `tyy
         hwMap = ahwMap;
 
         // Define and Initialize Motors
         getDrive();
         awesomeMotor = hwMap.dcMotor.get(aDriveName);
         //armMotor    = hwMap.dcMotor.get("left_arm");
-        getDrive().reverseLeftMotor();
+        getDrive().reverseRightMotor();
 
         // Set all motors to zero power
         awesomeMotor.setPower(0);

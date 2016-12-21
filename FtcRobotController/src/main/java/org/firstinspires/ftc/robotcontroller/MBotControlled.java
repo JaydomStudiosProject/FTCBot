@@ -88,7 +88,7 @@ public abstract class MBotControlled extends LinearOpMode {
                 // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
                 two_ints ti = func(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.right_stick_y);
                 left = ti.i;
-                right = ti.i;
+                right = ti.j;
 
                 left = -left;
                 right = -right;
@@ -116,8 +116,8 @@ public abstract class MBotControlled extends LinearOpMode {
                 left *= speed;
                 right *= speed;
 
-                hardware.getDrive().setLeftMotorPower(((left * speed) - hardware.CompensationLeft) * .65);
-                hardware.getDrive().setRightMotorPower(((right * speed) - hardware.CompensationRight) * .65);
+                hardware.getDrive().setLeftMotorPower(((left * speed) - hardware.CompensationLeft));
+                hardware.getDrive().setRightMotorPower(((right * speed) - hardware.CompensationRight));
 
                 // Use gamepad left & right Bumpers to open and close the claw
                 if (gamepad1.right_bumper)
