@@ -186,13 +186,20 @@ public class MBotAutonomousUnstable extends LinearOpMode {
             idle();
         }
 
-
-        encoderDrive(FORWARD_SPEED, 5,5,15);
+/*
+        encoderDrive(FORWARD_SPEED, -5,-5,15);
         encoderDrive(TURN_SPEED, 8,-8,15);
-        encoderDrive(FORWARD_SPEED, 12,12,15);
+        encoderDrive(FORWARD_SPEED, -12,-12,15);
         encoderDrive(TURN_SPEED, -8,8,15);
         RunUntilLine();
-    }
+        encoderDrive(TURN_SPEED, -8,8,15);
+        encoderDrive(FORWARD_SPEED, -5,-5,15);
+        */
+
+        encoderDrive(FORWARD_SPEED, 4*12,4*12,15);
+        encoderDrive(TURN_SPEED,-8,8,15);
+        encoderDrive(FORWARD_SPEED, 5*12, 5*12, 30);
+}
 
     /*public void drive(double time, boolean backwards) throws InterruptedException {
 

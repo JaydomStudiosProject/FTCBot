@@ -222,7 +222,7 @@ public class MBotAutonomousStable extends LinearOpMode {
         idle();
         */
 
-        encoderDrive(FORWARD_SPEED, 4*12, 4*12, 15);
+        encoderDrive(FORWARD_SPEED, 2*12 + 5, 2*12 + 5, 15);
     }
 
     /*public void drive(double time, boolean backwards) throws InterruptedException {

@@ -86,7 +86,7 @@ public abstract class MBotControlled extends LinearOpMode {
 
                 // Run wheels in POV mode (note: The joystick goes negative when pushed forwards, so negate it)
                 // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
-                two_ints ti = func(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.right_stick_y);
+                two_ints ti = func(-gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x, gamepad1.right_stick_y);
                 left = ti.i;
                 right = ti.j;
 
@@ -104,17 +104,14 @@ public abstract class MBotControlled extends LinearOpMode {
                     right /= max;
                 }
 
-                double aSpeed = gamepad1.left_bumper ? 1 : (gamepad1.left_trigger > 0 ? -1 : 0);
-                aSpeed = gamepad1.right_bumper ? 0.25 : (gamepad1.right_trigger > 0 ? -0.25 : aSpeed);
+                double aSpeed = gamepad1.left_trigger > 0 ? 1 : (gamepad1.left_bumper ? -1 : 0);
+                aSpeed = gamepad1.right_trigger > 0 ? 0.125 : (gamepad1.right_bumper ? -0.125 : aSpeed);
                 hardware.awesomeMotor.setPower(aSpeed);
 
                 if (left == 0 && right != 0)
                     left = -right;
                 else if (left != 0 && right == 0)
                     right = -left;
-
-                left *= speed;
-                right *= speed;
 
                 hardware.getDrive().setLeftMotorPower(((left * speed) - hardware.CompensationLeft));
                 hardware.getDrive().setRightMotorPower(((right * speed) - hardware.CompensationRight));
